@@ -9,8 +9,10 @@
 #include <glfw3.h>
 GLFWwindow* window;
 
-// Include GLM
+// GLM Mathemtics
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 using namespace glm;
 
 #include <common/shader.hpp>
@@ -87,7 +89,7 @@ int main( void )
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders( "SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader" );
+	GLuint programID = LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 
 	static const GLfloat g_vertex_buffer_data[] = { 
@@ -124,11 +126,25 @@ int main( void )
 		// Draw the triangle !
 		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
 
+		// Create camera transformation
+		glm::mat4 view;
+		view = camera.GetViewMatrix();
+		glm::mat4 projection;
+		projection = glm::perspective(camera.Zoom, (float)screenWidth / (float)screenHeight, 0.1f, 1000.0f);
+		// Get the uniform locations
+		GLint viewLoc = glGetUniformLocation(programID, "view");
+		GLint projLoc = glGetUniformLocation(programID, "projection");
+		// Pass the matrices to the shader
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
 		glDisableVertexAttribArray(0);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
+		// Check and call events
 		glfwPollEvents();
+		Do_Movement();
 
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
