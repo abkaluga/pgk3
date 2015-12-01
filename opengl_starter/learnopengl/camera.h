@@ -74,9 +74,9 @@ public:
     {
         GLfloat velocity = this->MovementSpeed * deltaTime;
         if (direction == FORWARD)
-			this->Position += glm::vec3(this->Front.x, 0.0f, this->Front.z) * velocity;
+            this->Position += this->Front * velocity;
         if (direction == BACKWARD)
-			this->Position -= glm::vec3(this->Front.x, 0.0f, this->Front.z) * velocity;
+            this->Position -= this->Front * velocity;
         if (direction == LEFT)
             this->Position -= this->Right * velocity;
         if (direction == RIGHT)
@@ -123,7 +123,7 @@ private:
         // Calculate the new Front vector
         glm::vec3 front;
         front.x = cos(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
-		front.y = sin(glm::radians(this->Pitch));
+        front.y = sin(glm::radians(this->Pitch));
         front.z = sin(glm::radians(this->Yaw)) * cos(glm::radians(this->Pitch));
         this->Front = glm::normalize(front);
         // Also re-calculate the Right and Up vector

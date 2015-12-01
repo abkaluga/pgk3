@@ -5,6 +5,7 @@ project (OpenGLStarter)
 find_package(OpenGL REQUIRED)
 
 
+
 if( CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR )
     message( FATAL_ERROR "Please select another Build Directory ! (and give it a clever name, like bin_Visual2012_64bits/)" )
 endif()
@@ -59,8 +60,11 @@ add_definitions(
 # opengl_starter
 add_executable(opengl_starter
 	opengl_starter/opengl_starter.cpp
+	opengl_starter/maze.h
+	opengl_starter/maze.cpp
 	common/shader.cpp
 	common/shader.hpp
+	
 
 	opengl_starter/SimpleFragmentShader.fragmentshader
 	opengl_starter/SimpleVertexShader.vertexshader
