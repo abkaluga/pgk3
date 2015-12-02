@@ -81,7 +81,7 @@ public:
 	 }
 
 
-
+	//Poprawic
 	bool isLeggal(glm::vec3 in)
 	 {
 		 auto cubes = getCubes();
@@ -108,6 +108,11 @@ public:
 	 {
 		 return start;
 	 }
+
+	glm::vec3 getStop()
+	{
+		return stop;
+	}
 private:
 	std::list<cube> cubes;
 	glm::vec3 start, stop;

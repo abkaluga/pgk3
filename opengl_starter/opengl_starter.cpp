@@ -226,9 +226,12 @@ int main( void )
 		GLint modelLoc = glGetUniformLocation(programID, "model");
 		GLint viewLoc = glGetUniformLocation(programID, "view");
 		GLint projLoc = glGetUniformLocation(programID, "projection");
+		GLint exitLoc = glGetUniformLocation(programID, "exit");
 		// Pass the matrices to the shader
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		glm::vec3 stop = maze.getStop();
+		glUniform3f(exitLoc, stop.x, stop.y, stop.z);
 		glBindVertexArray(VAO);
 		auto cubes = maze.getCubes();
 		for (auto it = cubes.begin(); it != cubes.end();++it) {

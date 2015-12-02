@@ -1,6 +1,7 @@
 #version 330 core
 in vec2 TexCoord;
 in float ViewDistance;
+in float ExitDistance;
 
 out vec4 color;
 
@@ -11,10 +12,25 @@ void main()
 {
     color = texture(ourTexture1, TexCoord);
 	float ambientStrength = 0.1;
+	
+	color *= ambientStrength + vec4(1.0,0.0,1.0,1.0)/(ExitDistance*ExitDistance)
+	+  vec4(1.0,1.0,1.0,1.0)/(ViewDistance*ViewDistance);
+	color[3] = 1.0;
+	/*
 	float dist = ViewDistance*2.5;
-	float diffStrength = 0.5 / (1.0 + dist*dist);
+	float diffStrength = 0.9 / (1.0 + dist*dist);
+
+	float exitDist = ExitDistance*3;
+	float exitStrength = 0.000008 / (1.0 + exitDist*exitDist);
 	vec3 lightColor = vec3(1.0, 1.0, 1.0);
+	//if
+	float diffStronger = exitStrength > diffStrength ? exitStrength : diffStrength;
     vec3 ambient = (ambientStrength + diffStrength) * lightColor;
 
-    color = vec4(ambient, 1.0) * color;
+	vec3 greenColor = vec3(-1.0, 0, -1.0);
+	vec3 greenStrength =  (1.0 / (1.0 + ExitDistance)) * greenColor;
+	color = vec4(ambient - greenStrength, 1.0) * color;*/
+
+
+
 }
